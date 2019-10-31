@@ -22,9 +22,13 @@ public class Hero : MonoBehaviour {
     // This variable holds a reference to the last triggering GameObject
     private GameObject lastTriggerGo = null;
 
+	public delegate void WeaponFireDelagate();
+
+	public WeaponFireDelagate fireDelegate;
+
+
 
     //TODO: Add function delegate declaration
-
 
 
 	void Start()
@@ -37,7 +41,7 @@ public class Hero : MonoBehaviour {
         {
             Debug.LogError("Hero.Awake() - Attempted to assign second Hero.S!");
         }
-        //fireDelegate += TempFire;
+        fireDelegate += TempFire;
 
         // Reset the weapons to start _Hero with 1 blaster
         ClearWeapons();
@@ -71,8 +75,9 @@ public class Hero : MonoBehaviour {
         // First, make sure the button is pressed: Axis("Jump")
         // Then ensure that fireDelegate isn't null to avoid an error
 
-
-
+		if (Input.GetAxis("Jump") == 1 && fireDelegate != null){
+			fireDelegate();
+		}
     }
 
 
